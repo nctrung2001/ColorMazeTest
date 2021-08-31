@@ -2,17 +2,16 @@ using UnityEngine;
 
 public class PlayerControl : MonoBehaviour
 {
-    private float moveSpeed = 5f;
+    private float moveSpeed;
     private Vector3 hitPos;
     private Vector3 target;
     int layerMask = 3;
-
-    private bool isRunning = false;
 
     [SerializeField] private GameObject swipeManager;
 
     private void Awake()
     {
+        moveSpeed = 0f;
         swipeManager = GameObject.FindGameObjectWithTag("SwipeManager");
         target = transform.position;
     }
@@ -50,15 +49,18 @@ public class PlayerControl : MonoBehaviour
         if(transform.position == target)
         {
             swipeManager.GetComponent<SwipeDetector>().swipeable = true;
-            target = transform.position;
+            moveSpeed = 0f;
         }
-        else swipeManager.GetComponent<SwipeDetector>().swipeable = false;
+        else
+        {
+            moveSpeed = 5f;
+            swipeManager.GetComponent<SwipeDetector>().swipeable = false;
+        } 
     }
 
     void RCLeft()
     {
         RaycastHit hit;
-        if(!isRunning)
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.left), out hit, Mathf.Infinity, layerMask))
         {
             hitPos = hit.collider.gameObject.transform.position;
@@ -69,7 +71,6 @@ public class PlayerControl : MonoBehaviour
     void RCRight()
     {
         RaycastHit hit;
-        if(!isRunning)
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), out hit, Mathf.Infinity, layerMask))
         {
             hitPos = hit.collider.gameObject.transform.position;
@@ -81,7 +82,6 @@ public class PlayerControl : MonoBehaviour
     void RCForward()
     {
         RaycastHit hit;
-        if(!isRunning)
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
         {
             hitPos = hit.collider.gameObject.transform.position;
@@ -93,7 +93,6 @@ public class PlayerControl : MonoBehaviour
     void RCBack()
     {
         RaycastHit hit;
-        if(!isRunning)
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), out hit, Mathf.Infinity, layerMask))
         {
             hitPos = hit.collider.gameObject.transform.position;
