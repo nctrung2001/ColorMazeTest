@@ -14,6 +14,7 @@ public class PlayerControl : MonoBehaviour
     private void Awake()
     {
         swipeManager = GameObject.FindGameObjectWithTag("SwipeManager");
+        target = transform.position;
     }
 
     void OnTriggerEnter(Collider other)
@@ -26,12 +27,8 @@ public class PlayerControl : MonoBehaviour
 
     private void Update()
     {
-        // if(transform.position == target)
-        // {
-        //     isRunning = false;
-        // }
-        // else isRunning = true;
- 
+        
+        
         if(swipeManager.GetComponent<SwipeDetector>().leftCheck)
         {
             RCLeft();
@@ -48,6 +45,14 @@ public class PlayerControl : MonoBehaviour
         {
             RCBack();
         }
+
+        transform.position = Vector3.MoveTowards(transform.position, target, moveSpeed*Time.deltaTime);
+        if(transform.position == target)
+        {
+            swipeManager.GetComponent<SwipeDetector>().swipeable = true;
+            target = transform.position;
+        }
+        else swipeManager.GetComponent<SwipeDetector>().swipeable = false;
     }
 
     void RCLeft()
@@ -57,16 +62,8 @@ public class PlayerControl : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.left), out hit, Mathf.Infinity, layerMask))
         {
             hitPos = hit.collider.gameObject.transform.position;
+            target = new Vector3(hitPos.x +1f, 1f, hitPos.z);
         }
-
-        target = new Vector3(hitPos.x +1f, 1f, hitPos.z);
-        transform.position = Vector3.MoveTowards(transform.position, new Vector3(hitPos.x +1f, 1f, hitPos.z), moveSpeed*Time.deltaTime);
-        if(transform.position == target)
-        {
-            isRunning = false;
-            target = Vector3.zero;
-        }
-        else isRunning = true;
     }
 
     void RCRight()
@@ -76,16 +73,8 @@ public class PlayerControl : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.right), out hit, Mathf.Infinity, layerMask))
         {
             hitPos = hit.collider.gameObject.transform.position;
+            target = new Vector3(hitPos.x -1f, 1f, hitPos.z);   
         }
-        
-        target = new Vector3(hitPos.x -1f, 1f, hitPos.z);
-        transform.position = Vector3.MoveTowards(transform.position, new Vector3(hitPos.x -1f, 1f, hitPos.z), moveSpeed*Time.deltaTime);
-        if(transform.position == target)
-        {
-            isRunning = false;
-            target = Vector3.zero;
-        }
-        else isRunning = true;
 
     }
 
@@ -96,16 +85,8 @@ public class PlayerControl : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.forward), out hit, Mathf.Infinity, layerMask))
         {
             hitPos = hit.collider.gameObject.transform.position;
+            target = new Vector3(hitPos.x, 1f, hitPos.z -1f);
         }    
-        
-        target = new Vector3(hitPos.x, 1f, hitPos.z -1f);
-        transform.position = Vector3.MoveTowards(transform.position, target = new Vector3(hitPos.x, 1f, hitPos.z -1f), moveSpeed*Time.deltaTime);
-        if(transform.position == target)
-        {
-            isRunning = false;
-            target = Vector3.zero;
-        }
-        else isRunning = true;
 
     }
 
@@ -116,17 +97,7 @@ public class PlayerControl : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.back), out hit, Mathf.Infinity, layerMask))
         {
             hitPos = hit.collider.gameObject.transform.position;
+            target = new Vector3(hitPos.x, 1f, hitPos.z +1f);
         }
-        
-        target = new Vector3(hitPos.x, 1f, hitPos.z +1f);
-        transform.position = Vector3.MoveTowards(transform.position, new Vector3(hitPos.x, 1f, hitPos.z +1f), moveSpeed*Time.deltaTime);
-        if(transform.position == target)
-        {
-            isRunning = false;
-            target = Vector3.zero;
-        }
-        else isRunning = true;
     }
-
-    
 }

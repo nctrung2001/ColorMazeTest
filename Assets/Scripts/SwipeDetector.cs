@@ -7,6 +7,8 @@ public class SwipeDetector : MonoBehaviour
     public float swipeThreshold = 50f;
     public float timeThreshold = 0.3f;
 
+    public bool swipeable = true;
+
     public bool leftCheck,rightCheck,upCheck,downCheck;
 
     public UnityEvent OnSwipeLeft;
@@ -28,28 +30,32 @@ public class SwipeDetector : MonoBehaviour
     }
 
     private void Update () {
-        if (Input.GetMouseButtonDown(0)) {
-            this.fingerDown = Input.mousePosition;
-            this.fingerUp = Input.mousePosition;
-            this.fingerDownTime = DateTime.Now;
+        if(swipeable)
+        {
+            if (Input.GetMouseButtonDown(0)) {
+                this.fingerDown = Input.mousePosition;
+                this.fingerUp = Input.mousePosition;
+                this.fingerDownTime = DateTime.Now;
+            }
+                if (Input.GetMouseButtonUp(0)) {
+                this.fingerDown = Input.mousePosition;
+                this.fingerUpTime = DateTime.Now;
+                this.CheckSwipe();
+            }
+            foreach (Touch touch in Input.touches) {
+                if (touch.phase == TouchPhase.Began) {
+                    this.fingerDown = touch.position;
+                    this.fingerUp = touch.position;
+                    this.fingerDownTime = DateTime.Now;
+                }
+                if (touch.phase == TouchPhase.Ended) {
+                    this.fingerDown = touch.position;
+                    this.fingerUpTime = DateTime.Now;
+                    this.CheckSwipe();
+                }
+            }
         }
-            if (Input.GetMouseButtonUp(0)) {
-            this.fingerDown = Input.mousePosition;
-            this.fingerUpTime = DateTime.Now;
-            this.CheckSwipe();
-        }
-        foreach (Touch touch in Input.touches) {
-        if (touch.phase == TouchPhase.Began) {
-            this.fingerDown = touch.position;
-            this.fingerUp = touch.position;
-            this.fingerDownTime = DateTime.Now;
-        }
-        if (touch.phase == TouchPhase.Ended) {
-            this.fingerDown = touch.position;
-            this.fingerUpTime = DateTime.Now;
-            this.CheckSwipe();
-        }
-        }
+        
     }
 
     private void CheckSwipe() {
