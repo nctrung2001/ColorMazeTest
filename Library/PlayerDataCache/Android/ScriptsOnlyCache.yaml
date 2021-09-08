@@ -693,7 +693,7 @@ ScriptsOnlyBuild:
     className: PlayerInputEditor
   - hash:
       serializedVersion: 2
-      Hash: a9cdc9da7f1b9f3bcaaee10b9c504903
+      Hash: bb3cc8e0fb269148bd1cd0e18fe3c123
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SwipeDetector
@@ -1054,4 +1054,4 @@ ScriptsOnlyBuild:
   - Assets/Scenes/Level4.unity
   - Assets/Scenes/Level5.unity
   - Assets/Scenes/Level6.unity
-  playerPath: C:/Users/Administrator/Desktop/BuildGame/mobile/ColorMaze.apk
+  playerPath: C:/Users/nguye/Desktop/BuildGAme/ColorMaze/ColorMaze.apk
